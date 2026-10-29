@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="bd1.flowgortihm"/>
+        <attribute name="authors" value="kad"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-10-29 09:20:49 AM"/>
+        <attribute name="created" value="a2FkO0dBUklES0hVVVMtTUFDQjsyMDI2LTEwLTI4OzExOjE1OjI2IFBNOzI2NjQ="/>
+        <attribute name="edited" value="a2FkO0dBUklES0hVVVMtTUFDQjsyMDI2LTEwLTI5OzA5OjIwOjQ5IEFNOzQ7Mjc2OQ=="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="plate, maxPlate" type="String" array="False" size=""/>
+            <declare name="entryHour, entryMinute, exitHour, exitMinute, entryTotal, exitTotal, parkedMinutes, fee, totalIncome, maxMinutes, i" type="Integer" array="False" size=""/>
+            <assign variable="totalIncome" expression="0"/>
+            <assign variable="maxMinutes" expression="0"/>
+            <assign variable="maxPlate" expression="&quot;&quot;"/>
+            <assign variable="fee" expression="0"/>
+            <output expression="&quot;No | Minut | Tulbur | Dugaar&quot;" newline="True"/>
+            <for variable="i" start="1" end="5" direction="inc" step="1">
+                <output expression="&quot;&#1052;&#1072;&#1096;&#1080;&#1085;&#1099; &#1076;&#1091;&#1075;&#1072;&#1072;&#1088;:&quot;" newline="True"/>
+                <input variable="plate"/>
+                <do expression="entryHour &lt; 0 OR entryHour &gt; 23 OR exitHour &lt; 0 OR exitHour &gt; 23 OR entryMinute &lt; 0 OR entryMinute &gt; 59 OR exitMinute &lt; 0 OR exitMinute &gt; 59 OR exitTotal &lt;= entryTotal">
+                    <output expression="&quot;Orson tsag:&quot;" newline="True"/>
+                    <input variable="entryHour"/>
+                    <output expression="&quot;Orson Minute:&quot;" newline="True"/>
+                    <input variable="entryMInute"/>
+                    <output expression="&quot;Garsan Tsag:&quot;" newline="True"/>
+                    <input variable="exitHour"/>
+                    <output expression="&quot;Garsan Minute: &quot;" newline="True"/>
+                    <input variable="exitMinute"/>
+                    <assign variable="entryTotal" expression="entryHour*60 + entryMinute"/>
+                    <assign variable="exitTotal" expression="exitHour*60 + exitMinute"/>
+                </do>
+                <assign variable="parkedMinutes" expression="exitTotal - entryTotal"/>
+                <assign variable="fee" expression="calcFee(parkedMinutes)"/>
+                <assign variable="totalIncome" expression="totalIncome + fee"/>
+                <if expression="parkedMinutes &gt; maxMinutes">
+                    <then>
+                        <assign variable="maxMinutes" expression="parkedMinutes"/>
+                        <assign variable="maxPlate" expression="plate"/>
+                    </then>
+                    <else/>
+                </if>
+                <call expression="printRow(i, parkedMinutes, fee, plate)"/>
+            </for>
+            <output expression="&quot;niit otlogo: &quot; &amp; totalIncome" newline="True"/>
+            <output expression="&quot;&#1061;&#1072;&#1084;&#1075;&#1080;&#1081;&#1085; &#1091;&#1076;&#1072;&#1072;&#1085;:&quot; &amp; maxPlate &amp; &quot; (&quot; &amp; maxMinutes &amp; &quot; &#1084;&#1080;&#1085;)&quot;" newline="True"/>
+        </body>
+    </function>
+    <function name="calcFee" type="Integer" variable="result">
+        <parameters>
+            <parameter name="minutes" type="Integer" array="False"/>
+        </parameters>
+        <body>
+            <declare name="result" type="Integer" array="False" size=""/>
+            <if expression="minutes &lt;= 30">
+                <then>
+                    <assign variable="result" expression="0"/>
+                </then>
+                <else>
+                    <if expression="minutes &lt;= 60">
+                        <then>
+                            <assign variable="result" expression="1500"/>
+                        </then>
+                        <else>
+                            <if expression="minutes &lt;= 120">
+                                <then>
+                                    <assign variable="result" expression="3500"/>
+                                </then>
+                                <else>
+                                    <assign variable="result" expression="3500 + ((minutes - 120 + 59) / 60) * 1000"/>
+                                </else>
+                            </if>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+    <function name="printRow" type="None" variable="">
+        <parameters>
+            <parameter name="n" type="Integer" array="False"/>
+            <parameter name="mins" type="Integer" array="False"/>
+            <parameter name="fee" type="Integer" array="False"/>
+            <parameter name="plate" type="String" array="False"/>
+        </parameters>
+        <body>
+            <output expression="n &amp; &quot; | &quot; &amp; mins &amp; &quot; | &quot; &amp; fee &amp; &quot; | &quot; &amp; plate" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
